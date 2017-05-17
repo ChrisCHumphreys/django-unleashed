@@ -4,11 +4,11 @@ from django.shortcuts import (
 from .models import Tag
 
 
-def homepage(request):
+def tag_list(request):
     return render(
         request,
         'organizer/tag_list.html',
-        {'tag_list': Tag.get_objects.all()})
+        {'tag_list': Tag.objects.all()})
 
 def tag_detail(request, slug):
     tag = get_object_or_404(
