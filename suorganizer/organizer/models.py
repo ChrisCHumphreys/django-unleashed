@@ -1,11 +1,18 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 
 # Create your models here.
 
-class Tag(models.Model):
 
-    name = models.CharField(max_length = 31, unique = True)
-    slug = models.SlugField(max_length = 31, unique = True, help_text = 'A label for a URL config')
+
+
+class Tag(models.Model):
+    name = models.CharField(
+        max_length = 31, unique = True)
+    slug = models.SlugField(
+        max_length = 31,
+        unique = True,
+        help_text = 'A label for a URL config')
 
     def __str__(self):
         return self.name.title()
@@ -13,12 +20,21 @@ class Tag(models.Model):
     class Meta:
         ordering = ['name']
 
-class Startup(models.Model):
+    def get_absolute_url(self):
+        return reverse('organizer_tag_detail',
+                       kwargs={'slug': self.slug})
 
-    name = models.CharField(max_length = 31)
-    slug = models.SlugField(unique = True)
+
+class Startup(models.Model):
+    name = models.CharField(
+        max_length = 31, db_index=True)
+    slug = models.SlugField(
+        max_length = 31,
+        unique = True,
+        help_text = 'A label for a url config')
     description = models.TextField()
-    founded_date = models.DateField('date founded')
+    founded_date = models.DateField(
+        'date founded')
     contact = models.EmailField()
     website = models.URLField(max_length = 255)
     tags = models.ManyToManyField(Tag)
@@ -29,6 +45,10 @@ class Startup(models.Model):
     class Meta:
         ordering = ['name']
         get_latest_by = 'founded_date'
+
+    def get_absolute_url(self):
+        return reverse('organizer_startup_detail',
+                       kwargs={'slug': self.slug})
 
 class NewsLink(models.Model):
 
