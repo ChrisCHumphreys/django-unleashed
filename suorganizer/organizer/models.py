@@ -50,6 +50,7 @@ class Startup(models.Model):
         return reverse('organizer_startup_detail',
                        kwargs={'slug': self.slug})
 
+
 class NewsLink(models.Model):
 
     title = models.CharField(max_length = 63)
@@ -64,3 +65,6 @@ class NewsLink(models.Model):
         verbose_name = 'news article'
         ordering = ['-pub_date']
         get_latest_by = 'pub_date'
+
+    def get_absolute_url(self):
+        return self.startup.get_absolute_url()
