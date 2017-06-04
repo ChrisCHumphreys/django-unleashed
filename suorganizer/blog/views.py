@@ -55,3 +55,5 @@ class PostUpdate(View):
     form_class = PostForm
     model = Post
     template_name = 'blog/post_form_update.html'
+
+    def g
